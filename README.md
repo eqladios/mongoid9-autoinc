@@ -172,7 +172,7 @@ increments :number, step: -> { 1 + rand(10) }
 ```
 $ gem install bundler (if you don't have it)
 $ bundle install
-$ bundle exec spec
+$ bundle exec rake
 ```
 
 ## Contributing

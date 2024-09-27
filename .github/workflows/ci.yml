@@ -1,0 +1,34 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mongodb: [4.4]
+        ruby: [2.7, 3.0, 3.1, 3.2, 3.3]
+        gemfile:
+          - mongoid_6
+          - mongoid_7
+          - mongoid_8
+          - mongoid_9
+        include:
+          - { mongodb: "4.4", ruby: "2.6", gemfile: "mongoid_3" }
+          - { mongodb: "4.4", ruby: "2.6", gemfile: "mongoid_4" }
+          - { mongodb: "4.4", ruby: "2.6", gemfile: "mongoid_5" }
+    name: Ruby ${{ matrix.ruby }} with ${{ matrix.gemfile }}
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
+    steps:
+      - name: Set up MongoDB ${{ matrix.mongodb }}
+        uses: supercharge/mongodb-github-action@1.3.0
+        with:
+          mongodb-version: ${{ matrix.mongodb }}
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run tests
+        run: bundle exec rake

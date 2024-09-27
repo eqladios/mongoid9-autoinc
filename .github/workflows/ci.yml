@@ -12,7 +12,7 @@ jobs:
           - mongoid_7
           - mongoid_8
           - mongoid_9
-    name: Ruby ${{ matrix.ruby }} with ${{ matrix.gemfile }} and ${{ matrix.mongodb }}
+    name: Ruby ${{ matrix.ruby }} with ${{ matrix.gemfile }} and mongodb ${{ matrix.mongodb }}
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
     steps:
